@@ -2,7 +2,7 @@
   "name": "cyber-map",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://mahmoudabdel098.github.io/cyber-map/",
+  "homepage": "https://cybersecurity-map.vercel.app/",
   "type": "module",
   "scripts": {
     "dev": "vite",

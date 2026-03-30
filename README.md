@@ -2,7 +2,7 @@
 
 **CyberMap** is a high-performance, interactive mind map designed to navigate the complex landscape of cybersecurity domains. Built with **React** and **ReactFlow**, it provides a streamlined, minimalist interface for exploring specialized fields, from Architecture & Frameworks to Governance and Real-time Threat Scenarios.
 
-### 🔗 [LIVE DEMO - Try it Now!](https://cyber-map-steel.vercel.app/)
+### 🔗 [LIVE DEMO - Try it Now!](https://cybersecurity-map.vercel.app/)
 
 ![Project Status](https://img.shields.io/badge/status-live-success?style=for-the-badge&logoColor=white)
 ![Build](https://img.shields.io/badge/build-passing-brightgreen?style=for-the-badge&logo=vite&logoColor=white)
