@@ -397,17 +397,17 @@ const MapInner = () => {
       {/* DASHBOARD (Left) - Light Version */}
       <header className={cn(
         "absolute z-40 md:z-30 pointer-events-none transition-all duration-300 ease-in-out",
-        "top-20 left-4 md:top-8 md:left-8",
+        "top-16 left-3 md:top-8 md:left-8",
         isMobileMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10 md:opacity-100 md:translate-y-0 pointer-events-none md:pointer-events-auto"
       )}>
-        <div className="pointer-events-auto bg-white/95 backdrop-blur-3xl border border-slate-200/80 p-4 md:p-5 rounded-[2rem] w-[calc(100vw-32px)] md:w-[290px] shadow-[0_15px_35px_rgba(0,0,0,0.06)] flex flex-col overflow-y-auto max-h-[85vh] scrollbar-hide">
+        <div className="pointer-events-auto bg-white/95 backdrop-blur-3xl border border-slate-200/80 p-4 md:p-5 rounded-[2rem] w-[calc(100vw-24px)] md:w-[290px] shadow-[0_15px_35px_rgba(0,0,0,0.08)] flex flex-col overflow-y-auto max-h-[70vh] md:max-h-[85vh] scrollbar-hide">
           {/* Header Compact */}
           <div className="flex items-center gap-3 mb-4 shrink-0 px-1">
             <div className="text-blue-600 bg-blue-50 p-2.5 rounded-xl border border-blue-100 flex-shrink-0">
               <ShieldCheck size={18} strokeWidth={2.5} />
             </div>
             <div>
-              <h1 className="text-[11px] font-black tracking-[0.2em] uppercase text-slate-800 leading-none mb-1">Cyber_Map</h1>
+              <h1 className="text-xs md:text-[11px] font-black tracking-[0.2em] uppercase text-slate-800 leading-none mb-1">Cyber_Map</h1>
               <span className="text-[8px] font-bold text-slate-400 tracking-widest uppercase flex items-center gap-1">
                 <div className="w-1 h-1 rounded-full bg-green-500 animate-pulse" /> Live Intel
               </span>
@@ -500,6 +500,7 @@ const MapInner = () => {
       </header>
 
       {/* REACT FLOW */}
+      <div className="w-full h-full" style={{ touchAction: 'none' }}>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -532,6 +533,7 @@ const MapInner = () => {
           maskColor="rgba(248, 250, 252, 0.75)"
         />
       </ReactFlow>
+      </div>
 
       {/* NODE DETAILS MODAL POPUP */}
       <NodeDetailsModal

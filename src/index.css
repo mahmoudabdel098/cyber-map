@@ -37,6 +37,28 @@ body {
   padding: 0 !important;
 }
 
+/* CRITICAL: Allow ReactFlow to handle touch events on mobile */
+.react-flow__pane {
+  touch-action: none !important;
+}
+
+.react-flow__renderer {
+  touch-action: none !important;
+}
+
+.react-flow {
+  touch-action: none !important;
+}
+
+/* Scrollbar hide utility */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* Minimal technical handles */
 .react-flow__handle {
   width: 4px !important;
