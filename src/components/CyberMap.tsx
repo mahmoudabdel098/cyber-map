@@ -188,16 +188,23 @@ const MapInner = () => {
     const nodeIds = threat.steps[threatStep]?.nodes || [];
     if (nodeIds.length === 0) return;
 
-    // Small timeout to allow nodes state to flush
     const t = setTimeout(() => {
       const rNodes = reactFlowInstance.getNodes().filter(n => nodeIds.includes(n.id));
       if (rNodes.length > 0) {
         const bounds = getNodesBounds(rNodes);
         const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-        reactFlowInstance.fitBounds(bounds, {
-          padding: isMobile ? 2.5 : 0.6, // Very high padding on mobile = big zoom into attack nodes
-          duration: 800,
-        });
+        
+        if (isMobile) {
+          // On mobile: zoom directly to the center of attack nodes at a HIGH fixed zoom
+          const centerX = bounds.x + bounds.width / 2;
+          const centerY = bounds.y + bounds.height / 2;
+          reactFlowInstance.setCenter(centerX, centerY, { zoom: 0.9, duration: 800 });
+        } else {
+          reactFlowInstance.fitBounds(bounds, {
+            padding: 0.5,
+            duration: 800,
+          });
+        }
       }
     }, 150);
     return () => clearTimeout(t);
