@@ -189,26 +189,25 @@ const MapInner = () => {
     if (nodeIds.length === 0) return;
 
     const t = setTimeout(() => {
-      const rNodes = reactFlowInstance.getNodes().filter(n => nodeIds.includes(n.id));
+      // Include attack nodes AND their path-to-center ancestors for context
+      const attackNodeIds = new Set(nodeIds);
+      nodeIds.forEach(nId => {
+        const path = getPathToCenter(nId);
+        path.forEach(p => attackNodeIds.add(p));
+      });
+      
+      const rNodes = reactFlowInstance.getNodes().filter(n => attackNodeIds.has(n.id));
       if (rNodes.length > 0) {
         const bounds = getNodesBounds(rNodes);
         const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-        
-        if (isMobile) {
-          // On mobile: zoom directly to the center of attack nodes at a HIGH fixed zoom
-          const centerX = bounds.x + bounds.width / 2;
-          const centerY = bounds.y + bounds.height / 2;
-          reactFlowInstance.setCenter(centerX, centerY, { zoom: 0.9, duration: 800 });
-        } else {
-          reactFlowInstance.fitBounds(bounds, {
-            padding: 0.5,
-            duration: 800,
-          });
-        }
+        reactFlowInstance.fitBounds(bounds, {
+          padding: isMobile ? 0.15 : 0.4, // Tight fit on mobile = nodes fill the screen
+          duration: 800,
+        });
       }
     }, 150);
     return () => clearTimeout(t);
-  }, [activeThreatId, threatStep, reactFlowInstance]);
+  }, [activeThreatId, threatStep, reactFlowInstance, getPathToCenter]);
 
   // --- FILTERS & INTERACTIVITY ---
   useEffect(() => {
@@ -286,7 +285,7 @@ const MapInner = () => {
         } else if (threatPaths.has(node.id)) {
            nodeOpacity = 0.6; // Keep ancestors visible to connect the tree!
         } else {
-           nodeOpacity = 0.25; // Greatly improved readability for non-active nodes on mobile
+           nodeOpacity = 0.35; // Visible enough to understand map structure
         }
       } else if (visible && isTracing) {
         nodeOpacity = activePath.has(node.id) ? 1 : 0.2;
