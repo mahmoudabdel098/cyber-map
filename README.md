@@ -2,6 +2,8 @@
 
 **CyberMap** is a high-performance, interactive mind map designed to navigate the complex landscape of cybersecurity domains. Built with **React** and **ReactFlow**, it provides a streamlined, minimalist interface for exploring specialized fields, from Architecture & Frameworks to Governance and Real-time Threat Scenarios.
 
+### 🔗 [LIVE DEMO - Try it Now!](https://mahmoudabdel098.github.io/cyber-map/)
+
 ![Project Status](https://img.shields.io/badge/status-live-success?style=for-the-badge&logoColor=white)
 ![Build](https://img.shields.io/badge/build-passing-brightgreen?style=for-the-badge&logo=vite&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)
@@ -14,6 +16,7 @@
 - **⚡ Real-time Threat Intelligence**: Simulated attack scenarios (Ransomware, Supply Chain, etc.) showing the propagation of threats across the network.
 - **🇮🇹 Multi-language Support**: Full support for both **English** and **Italian** at the click of a button.
 - **🔍 Deep Search & Filtering**: Instant discovery of concepts with automated path highlighting.
+- **🧠 Knowledge Check (Test Mode)**: Interactive quizzes built into nodes to test your understanding of each domain.
 - **📤 HD Export**: Export the current map view in high resolution for documentation or presentations.
 - **📱 Responsive Design**: Fully optimized for mobile, tablet, and desktop viewing.
 
@@ -42,6 +45,16 @@ cyber-map/
 ├── public/               # Static assets & favicon
 └── index.html            # Entry template
 ```
+
+---
+
+## 🕹️ Test Mode: How to Use
+
+To "test" your knowledge using the map:
+1. **Navigate**: Select any node (e.g., WAF, Zero Trust, MFA).
+2. **Learn**: Read the "What it is" and "Utility" sections in the detail modal.
+3. **Verify**: Click the **"Knowledge Check"** button to start a mini-quiz.
+4. **Master**: Receive instant feedback on your answers to reinforce learning.
 
 ---
 

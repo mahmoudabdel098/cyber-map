@@ -10,7 +10,6 @@ import ReactFlow, {
   BackgroundVariant,
   MiniMap,
   getNodesBounds,
-  getViewportForBounds,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { toPng } from 'html-to-image';
