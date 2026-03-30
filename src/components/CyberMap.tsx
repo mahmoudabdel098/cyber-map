@@ -380,8 +380,8 @@ const MapInner = () => {
   };
 
   return (
-    // Light Background
-    <div className="w-full h-full bg-[#f8fafc] text-slate-900 font-sans overflow-hidden relative" style={{ touchAction: 'none' }}>
+    // Light Background - no touch-action on container, let ReactFlow handle it
+    <div className="w-full h-full bg-[#f8fafc] text-slate-900 font-sans overflow-hidden relative">
 
       {/* MOBILE MENU TOGGLE */}
       <div className="md:hidden absolute top-5 left-4 z-50">
@@ -393,13 +393,10 @@ const MapInner = () => {
         </button>
       </div>
 
-      {/* DASHBOARD (Left) - Light Version */}
-      <header className={cn(
-        "absolute z-40 md:z-30 pointer-events-none transition-all duration-300 ease-in-out",
-        "top-16 left-3 md:top-8 md:left-8",
-        isMobileMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10 md:opacity-100 md:translate-y-0 pointer-events-none md:pointer-events-auto"
-      )}>
-        <div className="pointer-events-auto bg-white/95 backdrop-blur-3xl border border-slate-200/80 p-4 md:p-5 rounded-[2rem] w-[calc(100vw-24px)] md:w-[290px] shadow-[0_15px_35px_rgba(0,0,0,0.08)] flex flex-col overflow-y-auto max-h-[70vh] md:max-h-[85vh] scrollbar-hide">
+      {/* DASHBOARD (Left) - Only rendered when open on mobile, always visible on desktop */}
+      {(isMobileMenuOpen || typeof window === 'undefined') && (
+        <header className="absolute z-30 top-16 left-3 md:hidden pointer-events-auto">
+          <div className="bg-white/95 backdrop-blur-3xl border border-slate-200/80 p-4 rounded-[2rem] w-[calc(100vw-24px)] shadow-[0_15px_35px_rgba(0,0,0,0.08)] flex flex-col overflow-y-auto max-h-[70vh] scrollbar-hide">
           {/* Header Compact */}
           <div className="flex items-center gap-3 mb-4 shrink-0 px-1">
             <div className="text-blue-600 bg-blue-50 p-2.5 rounded-xl border border-blue-100 flex-shrink-0">
@@ -497,41 +494,144 @@ const MapInner = () => {
           </div>
         </div>
       </header>
+      )}
+      {/* Desktop sidebar - always visible */}
+      <header className="hidden md:block absolute z-30 top-8 left-8 pointer-events-auto">
+        <div className="bg-white/95 backdrop-blur-3xl border border-slate-200/80 p-5 rounded-[2rem] w-[290px] shadow-[0_15px_35px_rgba(0,0,0,0.08)] flex flex-col overflow-y-auto max-h-[85vh] scrollbar-hide">
+          {/* Header Compact */}
+          <div className="flex items-center gap-3 mb-4 shrink-0 px-1">
+            <div className="text-blue-600 bg-blue-50 p-2.5 rounded-xl border border-blue-100 flex-shrink-0">
+              <ShieldCheck size={18} strokeWidth={2.5} />
+            </div>
+            <div>
+              <h1 className="text-[11px] font-black tracking-[0.2em] uppercase text-slate-800 leading-none mb-1">Cyber_Map</h1>
+              <span className="text-[8px] font-bold text-slate-400 tracking-widest uppercase flex items-center gap-1">
+                <div className="w-1 h-1 rounded-full bg-green-500 animate-pulse" /> Live Intel
+              </span>
+            </div>
+          </div>
 
-      {/* REACT FLOW */}
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onNodeClick={onNodeClick}
-        onPaneClick={() => setSelectedNode(null)}
-        nodeTypes={nodeTypes}
-        edgeTypes={edgeTypes}
-        minZoom={0.05}
-        maxZoom={3}
-        nodesDraggable={false}
-        nodesConnectable={false}
-        elementsSelectable={true}
-        panOnDrag={true}
-        panOnScroll={false}
-        zoomOnScroll={false}
-        zoomOnPinch={true}
-        selectionOnDrag={false}
-        preventScrolling={true}
-        proOptions={{ hideAttribution: true }}
-      >
-        <Background variant={BackgroundVariant.Dots} color="#cbd5e1" gap={30} size={1.5} className="opacity-80" />
-        <Controls className="!bg-white !border-slate-200 !shadow-xl !rounded-xl !p-1 !m-2 md:!p-2 md:!m-10" />
-        <MiniMap 
-          nodeColor={(n: any) => n.data?.color || '#cbd5e1'}
-          nodeStrokeWidth={3}
-          zoomable
-          pannable
-          className="hidden md:block !bg-white !border-slate-200 !rounded-2xl shadow-xl !w-48 !h-36 !bottom-10 !right-10 overflow-hidden"
-          maskColor="rgba(248, 250, 252, 0.75)"
-        />
-      </ReactFlow>
+          <div className="flex gap-1.5 mb-4 shrink-0">
+            <div className="relative flex-1 group">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={13} />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                placeholder={lang === 'it' ? 'Cerca...' : 'Search...'}
+                className="w-full bg-slate-50/50 border border-slate-200/60 rounded-xl pl-8 pr-8 py-2 text-[10px] text-slate-800 focus:outline-none focus:bg-white transition-all font-medium"
+              />
+              {searchQuery && (
+                <button onClick={() => setSearchQuery('')} className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-600 p-1">
+                   <X size={12} />
+                </button>
+              )}
+            </div>
+            <button onClick={() => setLang(l => l === 'en' ? 'it' : 'en')} className="w-10 h-8 flex items-center justify-center border border-slate-200 bg-white text-[9px] font-black text-slate-500 hover:text-blue-600 rounded-xl transition-all active:scale-95">
+              {lang === 'it' ? 'EN' : 'IT'}
+            </button>
+            <button onClick={recenter} className="w-9 h-8 flex items-center justify-center border border-slate-200 bg-white text-slate-400 hover:text-slate-900 rounded-xl transition-all active:scale-95">
+              <RotateCcw size={14} strokeWidth={2.5} />
+            </button>
+            <button onClick={onDownload} className="w-9 h-8 flex items-center justify-center border border-blue-100 bg-blue-50 text-blue-500 hover:bg-blue-600 hover:text-white rounded-xl transition-all active:scale-95">
+              <Download size={14} strokeWidth={2.5} />
+            </button>
+          </div>
+
+          <div className="space-y-1 shrink-0 px-0.5">
+            <h3 className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-2 ml-1">
+              <div className="w-1 h-1 rounded-full bg-blue-400" /> {lang === 'it' ? 'Categorie' : 'Categories'}
+            </h3>
+            <div className="space-y-0.5">
+              {CLUSTERS.map(cluster => (
+                <button
+                  key={cluster.id}
+                  onClick={() => setActiveCluster(cluster.id === activeCluster ? null : cluster.id)}
+                  disabled={!!activeThreat}
+                  className={cn(
+                    "w-full px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.1em] rounded-xl transition-all flex items-center justify-between group",
+                    activeCluster === cluster.id
+                      ? "bg-slate-900 text-white shadow-lg"
+                      : "text-slate-500 hover:bg-slate-50 hover:text-slate-900 disabled:opacity-30"
+                  )}
+                >
+                  <span className="truncate pr-2">{cluster.label[lang] || cluster.label.en}</span>
+                  <div
+                    className="w-1.5 h-1.5 rounded-full shrink-0"
+                    style={{ 
+                      backgroundColor: cluster.color, 
+                      opacity: activeCluster === cluster.id ? 1 : 0.6 
+                    }}
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-5 mb-1 shrink-0 px-0.5">
+            <h3 className="text-[9px] font-black text-rose-500 uppercase tracking-widest mb-2 flex items-center gap-2 ml-1">
+              <ShieldAlert size={12} strokeWidth={2.5} /> {lang === 'it' ? 'Simulazioni' : 'Threats'}
+            </h3>
+            <div className="grid grid-cols-2 gap-1.5">
+              {threatScenarios.map(threat => {
+                const Icon = ICON_MAP[threat.iconName] || AlertTriangle;
+                return (
+                  <button
+                    key={threat.id}
+                    onClick={() => startThreat(threat.id)}
+                    className={cn(
+                      "flex items-center gap-2 px-2.5 py-2 text-[8px] font-black uppercase tracking-tight rounded-xl transition-all border shrink-0 group relative overflow-hidden",
+                      activeThreatId === threat.id
+                        ? "bg-rose-500 text-white border-rose-500 shadow-md"
+                        : "bg-white text-rose-600 border-rose-50 hover:bg-rose-50/50 hover:border-rose-100"
+                    )}
+                  >
+                    <Icon size={12} strokeWidth={2.5} className="shrink-0" />
+                    <span className="truncate text-left leading-tight">{threat.name[lang as 'it'|'en']}</span>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* REACT FLOW - Primary interactive layer */}
+      <div className="absolute inset-0 z-10">
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onNodeClick={onNodeClick}
+          onPaneClick={() => { setSelectedNode(null); setIsMobileMenuOpen(false); }}
+          nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
+          minZoom={0.05}
+          maxZoom={3}
+          nodesDraggable={false}
+          nodesConnectable={false}
+          elementsSelectable={true}
+          panOnDrag={true}
+          panOnScroll={false}
+          zoomOnScroll={false}
+          zoomOnPinch={true}
+          selectionOnDrag={false}
+          preventScrolling={true}
+          proOptions={{ hideAttribution: true }}
+        >
+          <Background variant={BackgroundVariant.Dots} color="#cbd5e1" gap={30} size={1.5} className="opacity-80" />
+          <Controls className="!bg-white !border-slate-200 !shadow-xl !rounded-xl !p-1 !m-2 md:!p-2 md:!m-10" />
+          <MiniMap 
+            nodeColor={(n: any) => n.data?.color || '#cbd5e1'}
+            nodeStrokeWidth={3}
+            zoomable
+            pannable
+            className="hidden md:block !bg-white !border-slate-200 !rounded-2xl shadow-xl !w-48 !h-36 !bottom-10 !right-10 overflow-hidden"
+            maskColor="rgba(248, 250, 252, 0.75)"
+          />
+        </ReactFlow>
+      </div>
 
       {/* NODE DETAILS MODAL POPUP */}
       <NodeDetailsModal
