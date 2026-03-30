@@ -54,7 +54,7 @@ cyber-map/
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/mahmoudabdelhamid/cyber-map.git
+   git clone https://github.com/mahmoudabdel098/cyber-map.git
    ```
 2. Navigate to the project folder:
    ```bash
