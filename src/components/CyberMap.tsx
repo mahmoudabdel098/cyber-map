@@ -511,6 +511,15 @@ const MapInner = () => {
         edgeTypes={edgeTypes}
         minZoom={0.05}
         maxZoom={3}
+        nodesDraggable={false}
+        nodesConnectable={false}
+        elementsSelectable={true}
+        panOnDrag={[1, 2]} // Support both 1 and 2 finger drag for panning
+        panOnScroll={false}
+        zoomOnScroll={false}
+        zoomOnPinch={true}
+        selectionOnDrag={false}
+        preventScrolling={true} // Keep focus on map when interacting
         proOptions={{ hideAttribution: true }}
       >
         <Controls className="!bg-white !border-slate-200 !shadow-xl !rounded-xl !p-2 !m-4 md:!m-10" />
