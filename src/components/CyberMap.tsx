@@ -381,8 +381,7 @@ const MapInner = () => {
 
   return (
     // Light Background
-    <div className="w-full h-full bg-[#f8fafc] text-slate-900 font-sans overflow-hidden relative">
-      <Background variant={BackgroundVariant.Dots} color="#cbd5e1" gap={30} size={1.5} className="opacity-80" />
+    <div className="w-full h-full bg-[#f8fafc] text-slate-900 font-sans overflow-hidden relative" style={{ touchAction: 'none' }}>
 
       {/* MOBILE MENU TOGGLE */}
       <div className="md:hidden absolute top-5 left-4 z-50">
@@ -500,7 +499,6 @@ const MapInner = () => {
       </header>
 
       {/* REACT FLOW */}
-      <div className="w-full h-full" style={{ touchAction: 'none' }}>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -523,6 +521,7 @@ const MapInner = () => {
         preventScrolling={true}
         proOptions={{ hideAttribution: true }}
       >
+        <Background variant={BackgroundVariant.Dots} color="#cbd5e1" gap={30} size={1.5} className="opacity-80" />
         <Controls className="!bg-white !border-slate-200 !shadow-xl !rounded-xl !p-1 !m-2 md:!p-2 md:!m-10" />
         <MiniMap 
           nodeColor={(n: any) => n.data?.color || '#cbd5e1'}
@@ -533,7 +532,6 @@ const MapInner = () => {
           maskColor="rgba(248, 250, 252, 0.75)"
         />
       </ReactFlow>
-      </div>
 
       {/* NODE DETAILS MODAL POPUP */}
       <NodeDetailsModal
