@@ -251,7 +251,7 @@ const MapInner = () => {
         } else if (threatPaths.has(node.id)) {
            nodeOpacity = 0.6; // Keep ancestors visible to connect the tree!
         } else {
-           nodeOpacity = 0.05;
+           nodeOpacity = 0.25; // Greatly improved readability for non-active nodes on mobile
         }
       } else if (visible && isTracing) {
         nodeOpacity = activePath.has(node.id) ? 1 : 0.2;
@@ -515,11 +515,11 @@ const MapInner = () => {
         nodesConnectable={false}
         elementsSelectable={true}
         panOnDrag={true}
-        panOnScroll={true}
+        panOnScroll={false}
         zoomOnScroll={false}
         zoomOnPinch={true}
         selectionOnDrag={false}
-        preventScrolling={false}
+        preventScrolling={true}
         proOptions={{ hideAttribution: true }}
       >
         <Controls className="!bg-white !border-slate-200 !shadow-xl !rounded-xl !p-1 !m-2 md:!p-2 md:!m-10" />
@@ -549,7 +549,7 @@ const MapInner = () => {
 
       {/* THREAT SIMULATOR PANEL */}
       {activeThreat && (
-        <div className="absolute top-20 md:top-10 right-4 md:right-10 w-[calc(100vw-32px)] md:w-[380px] z-[60] bg-slate-900/95 backdrop-blur-3xl border border-slate-700 shadow-2xl rounded-3xl overflow-y-auto max-h-[85vh] animate-in fade-in slide-in-from-right-8 flex flex-col pointer-events-auto custom-scrollbar">
+        <div className="absolute bottom-4 left-4 right-4 md:bottom-auto md:left-auto md:top-10 md:right-10 md:w-[380px] z-[60] bg-slate-900/95 backdrop-blur-3xl border border-slate-700 shadow-2xl rounded-3xl overflow-y-auto max-h-[70vh] md:max-h-[85vh] animate-in fade-in slide-in-from-bottom-8 md:slide-in-from-right-8 flex flex-col pointer-events-auto custom-scrollbar">
           <div className="bg-rose-500/10 border-b border-rose-500/20 px-5 py-3 flex items-center justify-between shrink-0">
             <div className="flex items-center gap-3">
               <div className="p-1.5 bg-rose-500/20 text-rose-400 rounded-lg shadow-inner">
