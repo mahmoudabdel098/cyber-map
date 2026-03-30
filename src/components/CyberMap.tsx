@@ -68,7 +68,7 @@ const MapInner = () => {
     setSelectedNode(null);
     setThreatStep(0);
     setActiveThreatId(id);
-    if (window.innerWidth < 768) setIsMobileMenuOpen(false);
+    setIsMobileMenuOpen(false);
   };
 
   const onDownload = useCallback(() => {
@@ -152,6 +152,33 @@ const MapInner = () => {
     return () => clearTimeout(timer);
   }, [reactFlowInstance]);
 
+  // -- DYNAMIC ZOOM FOR CLUSTERS --
+  useEffect(() => {
+    if (!activeCluster) {
+      // When deselecting, recenter to default view
+      const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+      reactFlowInstance.setCenter(0, 0, { zoom: isMobile ? 0.28 : 0.45, duration: 800 });
+      return;
+    }
+    const cluster = CLUSTERS.find(c => c.id === activeCluster);
+    if (!cluster) return;
+
+    const t = setTimeout(() => {
+      const clusterNodes = reactFlowInstance.getNodes().filter(n => {
+        const d = n.data as DomainNodeData;
+        return cluster.domains.includes(d.category!) || n.id === 'center';
+      });
+      if (clusterNodes.length > 1) {
+        const bounds = getNodesBounds(clusterNodes);
+        reactFlowInstance.fitBounds(bounds, {
+          padding: 0.4,
+          duration: 800,
+        });
+      }
+    }, 200);
+    return () => clearTimeout(t);
+  }, [activeCluster, reactFlowInstance]);
+
   // -- DYNAMIC ZOOM FOR THREATS --
   useEffect(() => {
     if (!activeThreatId) return;
@@ -166,8 +193,9 @@ const MapInner = () => {
       const rNodes = reactFlowInstance.getNodes().filter(n => nodeIds.includes(n.id));
       if (rNodes.length > 0) {
         const bounds = getNodesBounds(rNodes);
+        const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
         reactFlowInstance.fitBounds(bounds, {
-          padding: 0.6,
+          padding: isMobile ? 1.2 : 0.6, // Much more padding on mobile so nodes are large and readable
           duration: 1000,
         });
       }
@@ -445,7 +473,7 @@ const MapInner = () => {
               {CLUSTERS.map(cluster => (
                 <button
                   key={cluster.id}
-                  onClick={() => setActiveCluster(cluster.id === activeCluster ? null : cluster.id)}
+                  onClick={() => { setActiveCluster(cluster.id === activeCluster ? null : cluster.id); setIsMobileMenuOpen(false); }}
                   disabled={!!activeThreat}
                   className={cn(
                     "w-full px-3 md:py-1.5 py-3 text-[9px] font-black uppercase tracking-[0.1em] rounded-xl transition-all flex items-center justify-between group touch-manipulation",
