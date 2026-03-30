@@ -144,7 +144,7 @@ const MapInner = () => {
     const timer = setTimeout(() => {
       const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
       if (isMobile) {
-        reactFlowInstance.setCenter(0, 0, { zoom: 0.28, duration: 1200 });
+        reactFlowInstance.setCenter(0, 0, { zoom: 0.4, duration: 1200 });
       } else {
         reactFlowInstance.setCenter(0, 0, { zoom: 0.45, duration: 1200 });
       }
@@ -157,7 +157,7 @@ const MapInner = () => {
     if (!activeCluster) {
       // When deselecting, recenter to default view
       const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-      reactFlowInstance.setCenter(0, 0, { zoom: isMobile ? 0.28 : 0.45, duration: 800 });
+      reactFlowInstance.setCenter(0, 0, { zoom: isMobile ? 0.4 : 0.45, duration: 800 });
       return;
     }
     const cluster = CLUSTERS.find(c => c.id === activeCluster);
@@ -195,8 +195,8 @@ const MapInner = () => {
         const bounds = getNodesBounds(rNodes);
         const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
         reactFlowInstance.fitBounds(bounds, {
-          padding: isMobile ? 1.2 : 0.6, // Much more padding on mobile so nodes are large and readable
-          duration: 1000,
+          padding: isMobile ? 2.5 : 0.6, // Very high padding on mobile = big zoom into attack nodes
+          duration: 800,
         });
       }
     }, 150);
@@ -675,49 +675,49 @@ const MapInner = () => {
         }}
       />
 
-      {/* THREAT SIMULATOR PANEL */}
+      {/* THREAT SIMULATOR PANEL - Compact on mobile */}
       {activeThreat && (
-        <div className="absolute bottom-4 left-4 right-4 md:bottom-auto md:left-auto md:top-10 md:right-10 md:w-[380px] z-[60] bg-slate-900/95 backdrop-blur-3xl border border-slate-700 shadow-2xl rounded-3xl overflow-y-auto max-h-[70vh] md:max-h-[85vh] animate-in fade-in slide-in-from-bottom-8 md:slide-in-from-right-8 flex flex-col pointer-events-auto custom-scrollbar">
-          <div className="bg-rose-500/10 border-b border-rose-500/20 px-5 py-3 flex items-center justify-between shrink-0">
-            <div className="flex items-center gap-3">
-              <div className="p-1.5 bg-rose-500/20 text-rose-400 rounded-lg shadow-inner">
-                 <ShieldAlert size={16} />
+        <div className="absolute bottom-2 left-2 right-2 md:bottom-auto md:left-auto md:top-10 md:right-10 md:w-[380px] z-[60] bg-slate-900/95 backdrop-blur-3xl border border-slate-700 shadow-2xl rounded-2xl md:rounded-3xl overflow-hidden max-h-[35vh] md:max-h-[85vh] animate-in fade-in slide-in-from-bottom-4 md:slide-in-from-right-8 flex flex-col pointer-events-auto">
+          <div className="bg-rose-500/10 border-b border-rose-500/20 px-3 py-2 md:px-5 md:py-3 flex items-center justify-between shrink-0">
+            <div className="flex items-center gap-2">
+              <div className="p-1 bg-rose-500/20 text-rose-400 rounded-md">
+                 <ShieldAlert size={14} />
               </div>
-              <h3 className="text-rose-400 font-bold tracking-widest uppercase text-xs">{activeThreat.name[lang as 'it'|'en']}</h3>
+              <h3 className="text-rose-400 font-bold tracking-widest uppercase text-[10px] md:text-xs">{activeThreat.name[lang as 'it'|'en']}</h3>
             </div>
-            <button onClick={() => setActiveThreatId(null)} className="text-slate-400 hover:text-white p-1.5 hover:bg-slate-800 rounded-lg transition-colors">
-              <X size={18} />
+            <button onClick={() => setActiveThreatId(null)} className="text-slate-400 hover:text-white p-1 hover:bg-slate-800 rounded-md transition-colors">
+              <X size={16} />
             </button>
           </div>
-          <div className="p-5">
-            <div className="flex gap-1.5 mb-5">
+          <div className="p-3 md:p-5 overflow-y-auto">
+            <div className="flex gap-1 mb-2 md:mb-5">
               {activeThreat.steps.map((_, i) => (
                 <div key={i} className={cn("h-1 flex-1 rounded-full transition-all duration-300", i <= threatStep ? "bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.8)]" : "bg-slate-700")} />
               ))}
             </div>
-            <h4 className="text-white font-black text-sm uppercase tracking-wide mb-2">{activeThreat.steps[threatStep].title[lang as 'it'|'en']}</h4>
-            <p className="text-slate-300 text-xs leading-relaxed mb-6 font-medium">
+            <h4 className="text-white font-black text-xs md:text-sm uppercase tracking-wide mb-1 md:mb-2">{activeThreat.steps[threatStep].title[lang as 'it'|'en']}</h4>
+            <p className="text-slate-300 text-[11px] md:text-xs leading-snug mb-3 md:mb-6 font-medium">
               {activeThreat.steps[threatStep].desc[lang as 'it'|'en']}
             </p>
-            <div className="flex items-center justify-between pt-2 border-t border-slate-800/50">
+            <div className="flex items-center justify-between">
               <button 
                 onClick={() => setThreatStep(s => Math.max(0, s - 1))}
                 disabled={threatStep === 0}
-                className="px-3 py-2 text-xs font-bold text-slate-300 disabled:opacity-30 disabled:hover:bg-transparent flex items-center gap-1.5 hover:bg-slate-800 rounded-lg transition-colors"
+                className="px-2 py-1.5 md:px-3 md:py-2 text-[10px] md:text-xs font-bold text-slate-300 disabled:opacity-30 flex items-center gap-1 hover:bg-slate-800 rounded-lg transition-colors"
                 >
-                <ChevronLeft size={14} /> {lang === 'it' ? 'Indietro' : 'Prev'}
+                <ChevronLeft size={12} /> {lang === 'it' ? 'Indietro' : 'Prev'}
               </button>
               <button 
                 onClick={() => {
                    if (threatStep < activeThreat.steps.length - 1) setThreatStep(s => s + 1);
                    else setActiveThreatId(null);
                 }}
-                className="px-5 py-2 text-xs font-bold bg-rose-500 text-white rounded-lg flex items-center gap-1.5 hover:bg-rose-600 transition-all shadow-lg shadow-rose-500/20 active:scale-95"
+                className="px-3 py-1.5 md:px-5 md:py-2 text-[10px] md:text-xs font-bold bg-rose-500 text-white rounded-lg flex items-center gap-1 hover:bg-rose-600 transition-all shadow-lg shadow-rose-500/20 active:scale-95"
                 >
                 {threatStep === activeThreat.steps.length - 1 
-                   ? (lang === 'it' ? 'Termina Simulazione' : 'End Simulation') 
-                   : (lang === 'it' ? 'Prossima Fase' : 'Next Phase')} 
-                {threatStep < activeThreat.steps.length - 1 && <ChevronRight size={14} />}
+                   ? (lang === 'it' ? 'Fine' : 'End') 
+                   : (lang === 'it' ? 'Avanti' : 'Next')} 
+                {threatStep < activeThreat.steps.length - 1 && <ChevronRight size={12} />}
               </button>
             </div>
           </div>
