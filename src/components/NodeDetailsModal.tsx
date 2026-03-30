@@ -60,14 +60,14 @@ export default function NodeDetailsModal({ nodeId, nodeData, onClose, onRelatedC
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 pointer-events-none flex justify-end items-center p-4 md:p-8">
+        <div className="fixed inset-0 z-50 pointer-events-none flex justify-center md:justify-end items-center p-2 md:p-8">
           <motion.div
             key="drawer"
             initial={{ x: "110%", opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: "110%", opacity: 0 }}
             transition={{ type: "spring", stiffness: 350, damping: 32 }}
-            className="relative w-full max-w-[340px] md:max-w-[380px] h-full max-h-[90vh] bg-white/90 backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.12)] border border-white/50 rounded-[3rem] overflow-hidden pointer-events-auto flex flex-col"
+            className="relative w-[calc(100vw-32px)] md:w-full md:max-w-[380px] h-full max-h-[85vh] md:max-h-[90vh] bg-white/90 backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.12)] border border-white/50 rounded-[2.5rem] md:rounded-[3rem] overflow-hidden pointer-events-auto flex flex-col"
           >
             {/* Header Line - Now a top bar for floating look */}
             <div className="absolute top-0 left-0 right-0 h-2" style={{ backgroundColor: color }} />

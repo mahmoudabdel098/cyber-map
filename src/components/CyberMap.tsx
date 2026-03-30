@@ -385,22 +385,22 @@ const MapInner = () => {
       <Background variant={BackgroundVariant.Dots} color="#cbd5e1" gap={30} size={1.5} className="opacity-80" />
 
       {/* MOBILE MENU TOGGLE */}
-      <div className="md:hidden absolute top-6 left-6 z-50">
+      <div className="md:hidden absolute top-5 left-4 z-50">
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="bg-white/95 backdrop-blur-3xl p-4 rounded-2xl border border-slate-200 shadow-xl text-slate-800"
+          className="bg-white/95 backdrop-blur-3xl p-3 rounded-xl border border-slate-200 shadow-xl text-slate-800 transition-transform active:scale-90"
         >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
 
       {/* DASHBOARD (Left) - Light Version */}
       <header className={cn(
         "absolute z-40 md:z-30 pointer-events-none transition-all duration-300 ease-in-out",
-        "top-24 left-6 md:top-8 md:left-8",
+        "top-20 left-4 md:top-8 md:left-8",
         isMobileMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10 md:opacity-100 md:translate-y-0 pointer-events-none md:pointer-events-auto"
       )}>
-        <div className="pointer-events-auto bg-white/95 backdrop-blur-3xl border border-slate-200/80 p-4 md:p-5 rounded-[2rem] w-[calc(100vw-48px)] md:w-[290px] shadow-[0_15px_35px_rgba(0,0,0,0.06)] flex flex-col overflow-hidden">
+        <div className="pointer-events-auto bg-white/95 backdrop-blur-3xl border border-slate-200/80 p-4 md:p-5 rounded-[2rem] w-[calc(100vw-32px)] md:w-[290px] shadow-[0_15px_35px_rgba(0,0,0,0.06)] flex flex-col overflow-hidden">
           {/* Header Compact */}
           <div className="flex items-center gap-3 mb-4 shrink-0 px-1">
             <div className="text-blue-600 bg-blue-50 p-2.5 rounded-xl border border-blue-100 flex-shrink-0">
@@ -452,7 +452,7 @@ const MapInner = () => {
                   onClick={() => setActiveCluster(cluster.id === activeCluster ? null : cluster.id)}
                   disabled={!!activeThreat}
                   className={cn(
-                    "w-full px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.1em] rounded-xl transition-all flex items-center justify-between group",
+                    "w-full px-3 md:py-1.5 py-3 text-[9px] font-black uppercase tracking-[0.1em] rounded-xl transition-all flex items-center justify-between group touch-manipulation",
                     activeCluster === cluster.id
                       ? "bg-slate-900 text-white shadow-lg"
                       : "text-slate-500 hover:bg-slate-50 hover:text-slate-900 disabled:opacity-30"
@@ -483,7 +483,7 @@ const MapInner = () => {
                     key={threat.id}
                     onClick={() => startThreat(threat.id)}
                     className={cn(
-                      "flex items-center gap-2 px-2.5 py-2 text-[8px] font-black uppercase tracking-tight rounded-xl transition-all border shrink-0 group relative overflow-hidden",
+                      "flex items-center gap-2 md:px-2.5 px-3 md:py-2 py-3 text-[8px] font-black uppercase tracking-tight rounded-xl transition-all border shrink-0 group relative overflow-hidden touch-manipulation",
                       activeThreatId === threat.id
                         ? "bg-rose-500 text-white border-rose-500 shadow-md"
                         : "bg-white text-rose-600 border-rose-50 hover:bg-rose-50/50 hover:border-rose-100"
@@ -514,21 +514,21 @@ const MapInner = () => {
         nodesDraggable={false}
         nodesConnectable={false}
         elementsSelectable={true}
-        panOnDrag={[1, 2]} // Support both 1 and 2 finger drag for panning
-        panOnScroll={false}
+        panOnDrag={true}
+        panOnScroll={true}
         zoomOnScroll={false}
         zoomOnPinch={true}
         selectionOnDrag={false}
-        preventScrolling={true} // Keep focus on map when interacting
+        preventScrolling={false}
         proOptions={{ hideAttribution: true }}
       >
-        <Controls className="!bg-white !border-slate-200 !shadow-xl !rounded-xl !p-2 !m-4 md:!m-10" />
+        <Controls className="!bg-white !border-slate-200 !shadow-xl !rounded-xl !p-1 !m-2 md:!p-2 md:!m-10" />
         <MiniMap 
           nodeColor={(n: any) => n.data?.color || '#cbd5e1'}
           nodeStrokeWidth={3}
           zoomable
           pannable
-          className="!bg-white !border-slate-200 !rounded-2xl shadow-xl !w-32 !h-24 md:!w-48 md:!h-36 !bottom-4 !right-4 md:!bottom-10 md:!right-10 overflow-hidden"
+          className="!bg-white !border-slate-200 !rounded-2xl shadow-xl !w-24 !h-16 md:!w-48 md:!h-36 !bottom-3 !right-3 md:!bottom-10 md:!right-10 overflow-hidden"
           maskColor="rgba(248, 250, 252, 0.75)"
         />
       </ReactFlow>
