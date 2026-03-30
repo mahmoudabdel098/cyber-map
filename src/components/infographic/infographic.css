@@ -1,0 +1,61 @@
+/* Infographic Aesthetic - Based on Inspo/m.jpg */
+.info-bg {
+    background-color: #f8f9fa;
+    /* Creamy off-white as per inspo */
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+.info-line {
+    stroke: #4a4a4a;
+    stroke-width: 1.5px;
+    stroke-dasharray: none;
+}
+
+.info-node-pill {
+    @apply bg-white border border-gray-300 rounded-full px-4 py-1.5 shadow-sm;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.info-node-hub {
+    @apply text-white font-bold rounded-lg shadow-md flex items-center justify-center p-3;
+    background-color: var(--hub-color, #2d3436);
+}
+
+.info-connection-dot {
+    @apply w-1.5 h-1.5 rounded-full bg-gray-400 absolute;
+}
+
+.info-category-section {
+    @apply border-l-2 border-gray-200 pl-8 ml-4;
+}
+
+.info-header-block {
+    @apply border-2 border-[#1a1a1a] p-6 mb-12 inline-block;
+    border-radius: 4px;
+}
+
+.info-title {
+    @apply text-3xl font-bold text-[#1a1a1a] uppercase tracking-tight;
+}
+
+/* Animations for data movement - subtle style */
+@keyframes pulse-soft {
+    0% {
+        opacity: 0.1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+
+    100% {
+        opacity: 0.1;
+    }
+}
+
+.info-pulse {
+    animation: pulse-soft 3s infinite ease-in-out;
+}
