@@ -31,7 +31,7 @@ const CyberNode = ({ id, data, selected }: NodeProps<DomainNodeData>) => {
         )}
       >
         <div className="absolute inset-0 bg-gradient-to-br from-slate-50 to-white rounded-[20px] pointer-events-none" />
-        <h1 className="text-xl md:text-3xl font-black text-slate-900 tracking-[0.1em] md:tracking-[0.2em] z-10 uppercase drop-shadow-md text-center">
+        <h1 className="text-2xl md:text-3xl font-black text-slate-900 tracking-[0.1em] md:tracking-[0.2em] z-10 uppercase drop-shadow-md text-center">
           {label}
         </h1>
 
@@ -54,7 +54,7 @@ const CyberNode = ({ id, data, selected }: NodeProps<DomainNodeData>) => {
 
         <div className="flex items-center gap-3 md:gap-4 mb-1 md:mb-2">
           <div className="w-4 h-4 md:w-5 md:h-5 rounded-full shadow-sm" style={{ backgroundColor: color }} />
-          <h2 className="text-sm md:text-xl font-bold text-slate-800 tracking-wider uppercase drop-shadow-sm">
+          <h2 className="text-lg md:text-xl font-bold text-slate-800 tracking-wider uppercase drop-shadow-sm">
             {label}
           </h2>
         </div>
@@ -76,12 +76,12 @@ const CyberNode = ({ id, data, selected }: NodeProps<DomainNodeData>) => {
 
   return (
     <div className={cn(
-      "relative flex items-center px-4 py-3 md:px-6 md:py-4 rounded-xl z-30 w-max min-w-[160px] md:min-w-[220px] whitespace-nowrap transition-all duration-500",
+      "relative flex items-center px-4 py-3 md:px-6 md:py-4 rounded-xl z-30 w-max min-w-[180px] md:min-w-[220px] whitespace-nowrap transition-all duration-500",
       data.isUnderAttack ? underAttackStyles : `${defaultBg} ${hoverStyles}`,
       selected && !data.isUnderAttack && selectedStyles
     )}>
       <div className="w-3 h-3 md:w-4 md:h-4 rounded-full mr-3 md:mr-5 shrink-0 shadow-sm" style={{ backgroundColor: color }} />
-      <span className="text-[11px] md:text-base font-bold text-slate-800 tracking-wide uppercase">
+      <span className="text-sm md:text-base font-bold text-slate-800 tracking-wide uppercase">
         {label}
       </span>
 

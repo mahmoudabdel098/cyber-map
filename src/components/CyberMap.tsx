@@ -400,7 +400,7 @@ const MapInner = () => {
         "top-20 left-4 md:top-8 md:left-8",
         isMobileMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10 md:opacity-100 md:translate-y-0 pointer-events-none md:pointer-events-auto"
       )}>
-        <div className="pointer-events-auto bg-white/95 backdrop-blur-3xl border border-slate-200/80 p-4 md:p-5 rounded-[2rem] w-[calc(100vw-32px)] md:w-[290px] shadow-[0_15px_35px_rgba(0,0,0,0.06)] flex flex-col overflow-hidden">
+        <div className="pointer-events-auto bg-white/95 backdrop-blur-3xl border border-slate-200/80 p-4 md:p-5 rounded-[2rem] w-[calc(100vw-32px)] md:w-[290px] shadow-[0_15px_35px_rgba(0,0,0,0.06)] flex flex-col overflow-y-auto max-h-[85vh] scrollbar-hide">
           {/* Header Compact */}
           <div className="flex items-center gap-3 mb-4 shrink-0 px-1">
             <div className="text-blue-600 bg-blue-50 p-2.5 rounded-xl border border-blue-100 flex-shrink-0">
@@ -483,7 +483,7 @@ const MapInner = () => {
                     key={threat.id}
                     onClick={() => startThreat(threat.id)}
                     className={cn(
-                      "flex items-center gap-2 md:px-2.5 px-3 md:py-2 py-3 text-[8px] font-black uppercase tracking-tight rounded-xl transition-all border shrink-0 group relative overflow-hidden touch-manipulation",
+                      "flex items-center gap-2 md:px-2.5 px-3 md:py-2 py-3 text-[10px] md:text-[8px] font-black uppercase tracking-tight rounded-xl transition-all border shrink-0 group relative overflow-hidden touch-manipulation",
                       activeThreatId === threat.id
                         ? "bg-rose-500 text-white border-rose-500 shadow-md"
                         : "bg-white text-rose-600 border-rose-50 hover:bg-rose-50/50 hover:border-rose-100"
@@ -528,7 +528,7 @@ const MapInner = () => {
           nodeStrokeWidth={3}
           zoomable
           pannable
-          className="!bg-white !border-slate-200 !rounded-2xl shadow-xl !w-24 !h-16 md:!w-48 md:!h-36 !bottom-3 !right-3 md:!bottom-10 md:!right-10 overflow-hidden"
+          className="hidden md:block !bg-white !border-slate-200 !rounded-2xl shadow-xl !w-48 !h-36 !bottom-10 !right-10 overflow-hidden"
           maskColor="rgba(248, 250, 252, 0.75)"
         />
       </ReactFlow>
@@ -549,8 +549,8 @@ const MapInner = () => {
 
       {/* THREAT SIMULATOR PANEL */}
       {activeThreat && (
-        <div className="absolute top-24 md:top-10 right-6 md:right-10 w-[calc(100vw-48px)] md:w-[380px] z-[60] bg-slate-900/95 backdrop-blur-3xl border border-slate-700 shadow-2xl rounded-3xl overflow-hidden animate-in fade-in slide-in-from-right-8 flex flex-col pointer-events-auto">
-          <div className="bg-rose-500/10 border-b border-rose-500/20 px-5 py-3 flex items-center justify-between">
+        <div className="absolute top-20 md:top-10 right-4 md:right-10 w-[calc(100vw-32px)] md:w-[380px] z-[60] bg-slate-900/95 backdrop-blur-3xl border border-slate-700 shadow-2xl rounded-3xl overflow-y-auto max-h-[85vh] animate-in fade-in slide-in-from-right-8 flex flex-col pointer-events-auto custom-scrollbar">
+          <div className="bg-rose-500/10 border-b border-rose-500/20 px-5 py-3 flex items-center justify-between shrink-0">
             <div className="flex items-center gap-3">
               <div className="p-1.5 bg-rose-500/20 text-rose-400 rounded-lg shadow-inner">
                  <ShieldAlert size={16} />
